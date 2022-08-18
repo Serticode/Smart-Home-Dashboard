@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_home_dashboard/screens/auth_screens/login_screen/login_screen.dart';
-import 'package:smart_home_dashboard/theme/theme.dart';
+import 'package:smart_home_dashboard/screens/auth_screens/register_screen/register_screen.dart';
 import 'package:smart_home_dashboard/utils/app_screen_utils.dart';
 import 'package:smart_home_dashboard/widgets/custom_text_widget.dart';
 
@@ -13,7 +12,6 @@ class AuthModalBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: theParentConstraints.maxHeight * 0.4,
         width: double.infinity,
         padding: AppScreenUtils.appUIDefaultPadding,
         decoration: const BoxDecoration(
@@ -54,31 +52,19 @@ class AuthModalBottomSheet extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () {
-                        //! CLOSE MODAL SHEET.
+                        //! CLOSE CURRENT MODAL SHEET
                         Navigator.of(context).pop();
 
-                        //! SHOW NEW MODAL SHEET
-                        showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(32.0),
-                                    topRight: Radius.circular(32.0))),
-                            builder: (context) {
-                              return const Login();
-                            });
+                        //! SHOW MODAL SHEET
+                        AppScreenUtils.showAppModalBottomSheet(
+                            theBuildContext: context, child: const Login());
                       },
                       style: ElevatedButton.styleFrom(
                           side: BorderSide(
                               width: 2,
                               color: Theme.of(context).colorScheme.primary)),
-                      child: const CustomTextWidget(
-                          theText: "Login",
-                          isThisAHeader: false,
-                          isThisASubheader: false,
-                          isThisABody: false,
-                          isThisAButton: true))),
+                      child: Text("Login",
+                          style: Theme.of(context).textTheme.bodyText2))),
 
               //! SPACER
               AppScreenUtils.verticalSpaceSmall,
@@ -87,14 +73,13 @@ class AuthModalBottomSheet extends StatelessWidget {
               SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () =>
+                          //! SHOW MODAL SHEET
+                          AppScreenUtils.showAppModalBottomSheet(
+                              theBuildContext: context,
+                              child: const Register()),
                       style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context).colorScheme.primary,
-                          textStyle: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w500,
-                              color: AppThemeColours
-                                  .elevatedButtonBackgroundColour,
-                              fontSize: 18.0)),
+                          primary: Theme.of(context).colorScheme.primary),
                       child: const Text("Register")))
             ])));
   }

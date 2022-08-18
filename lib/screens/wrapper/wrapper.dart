@@ -65,17 +65,11 @@ class Wrapper extends StatelessWidget {
                   SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                          onPressed: () => showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(32.0),
-                                      topRight: Radius.circular(32.0))),
-                              builder: (context) {
-                                return AuthModalBottomSheet(
-                                    theParentConstraints: constraints);
-                              }),
+                          onPressed: () =>
+                              AppScreenUtils.showAppModalBottomSheet(
+                                  theBuildContext: context,
+                                  child: AuthModalBottomSheet(
+                                      theParentConstraints: constraints)),
                           child: const CustomTextWidget(
                               theText: "Get Smart",
                               isThisAHeader: false,

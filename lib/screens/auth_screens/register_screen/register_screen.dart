@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:smart_home_dashboard/screens/auth_screens/confirmation_screen/confirmation_screen.dart';
-import 'package:smart_home_dashboard/screens/auth_screens/register_screen/register_screen.dart';
+import 'package:smart_home_dashboard/screens/auth_screens/login_screen/login_screen.dart';
 import 'package:smart_home_dashboard/theme/theme.dart';
 import 'package:smart_home_dashboard/utils/app_screen_utils.dart';
 import 'package:smart_home_dashboard/widgets/custom_text_widget.dart';
 
-class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
+class Register extends StatelessWidget {
+  const Register({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +37,28 @@ class Login extends StatelessWidget {
 
               //! CONTENT
               const CustomTextWidget(
-                  theText: "Login",
+                  theText: "Register",
                   isThisAHeader: false,
                   isThisASubheader: false,
                   isThisABody: true,
                   isThisAButton: false),
+
+              //! SPACER
+              AppScreenUtils.verticalSpaceSmall,
+
+              //! FULL NAME
+              TextFormField(
+                  decoration: InputDecoration(
+                      hintText: "Ciroma, Chuckwuma Adekunle",
+                      labelText: "Full name")),
+
+              //! SPACER
+              AppScreenUtils.verticalSpaceSmall,
+
+              //! USER NAME
+              TextFormField(
+                  decoration: InputDecoration(
+                      hintText: "Serticode", labelText: "Custom user name")),
 
               //! SPACER
               AppScreenUtils.verticalSpaceSmall,
@@ -62,16 +79,17 @@ class Login extends StatelessWidget {
               //! SPACER
               AppScreenUtils.verticalSpaceSmall,
 
-              //! LOGIN BUTTON
+              //! Register BUTTON
               SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      //! SHOW CONFIRMATION MESSAGE
-                      onPressed: () => AppScreenUtils.showAppModalBottomSheet(
-                          theBuildContext: context, child: const Confirm()),
-                      style: ElevatedButton.styleFrom(
-                          primary: AppThemeColours.primaryColour),
-                      child: Text("Login"))),
+                width: double.infinity,
+                child: ElevatedButton(
+                    //! SHOW CONFIRMATION MESSAGE
+                    onPressed: () => AppScreenUtils.showAppModalBottomSheet(
+                        theBuildContext: context, child: const Confirm()),
+                    style: ElevatedButton.styleFrom(
+                        primary: AppThemeColours.primaryColour),
+                    child: Text("Register")),
+              ),
 
               //! SPACER
               AppScreenUtils.verticalSpaceMedium,
@@ -79,7 +97,7 @@ class Login extends StatelessWidget {
               //! CONTENT
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 const CustomTextWidget(
-                    theText: "Don't have an account?",
+                    theText: "Already have an account?",
                     isThisAHeader: false,
                     isThisASubheader: false,
                     isThisABody: true,
@@ -96,10 +114,10 @@ class Login extends StatelessWidget {
 
                     //! OPEN NEW MODAL SHEET
                     AppScreenUtils.showAppModalBottomSheet(
-                        theBuildContext: context, child: const Register());
+                        theBuildContext: context, child: const Login());
                   },
                   child: const CustomTextWidget(
-                      theText: "Register",
+                      theText: "Login",
                       isThisAHeader: false,
                       isThisASubheader: false,
                       isThisABody: true,
@@ -108,7 +126,7 @@ class Login extends StatelessWidget {
               ]),
 
               //! SPACER
-              AppScreenUtils.verticalSpaceSmall
+              AppScreenUtils.verticalSpaceSmall,
             ])));
   }
 }

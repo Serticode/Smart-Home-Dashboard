@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:smart_home_dashboard/router/router.dart';
 import 'package:smart_home_dashboard/screens/wrapper/wrapper.dart';
 import 'package:smart_home_dashboard/theme/theme.dart';
 
@@ -13,6 +14,7 @@ class SmartHomeDashboard extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.theTheme,
+        onGenerateRoute: AppNavigator.generateRoute,
         home: LayoutBuilder(
             builder: (context, constraints) => ScreenUtilInit(
                 designSize: Size(constraints.maxWidth, constraints.maxHeight),

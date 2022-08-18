@@ -68,31 +68,47 @@ class AppTheme {
             contentPadding: AppScreenUtils.textFormFieldDefaultPadding,
             filled: true,
             fillColor:
-                AppThemeColours.lettersAndIconsFaintColour.withOpacity(0.5),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(21.0)),
+                AppThemeColours.lettersAndIconsFaintColour.withOpacity(0.2),
+
+            //! BORDERS
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: AppThemeColours.primaryColour, width: 2.0),
+                borderRadius: BorderRadius.circular(21.0)),
             focusColor: AppThemeColours.focusedTextFormFieldColour,
             focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                    width: 1.2,
+                    width: 2.0,
                     color: AppThemeColours.focusedTextFormFieldColour),
                 borderRadius: BorderRadius.circular(21.0)),
+
+            //! HINT
             hintStyle: GoogleFonts.poppins(
                 fontWeight: FontWeight.w500,
                 color: AppThemeColours.lettersAndIconsFaintColour,
-                fontSize: 14.0)));
+                fontSize: 12.0),
+
+            //! LABEL
+            alignLabelWithHint: true,
+            floatingLabelStyle: GoogleFonts.poppins(
+                fontWeight: FontWeight.w500,
+                color: AppThemeColours.lettersAndIconsFaintColour,
+                fontSize: 16.0),
+            labelStyle: GoogleFonts.poppins(
+                fontWeight: FontWeight.w400,
+                color: AppThemeColours.lettersAndIconsFaintColour,
+                fontSize: 12.0)));
   }
 }
 
 //! THEME COLOURS, SINGLETON INSTANCES & THEME COLOUR CLASS.
-
 class AppThemeColours {
   static Color primaryColour = const Color(0xFF203033);
   static Color secondaryColour = const Color(0xFF1A224C);
   static Color tertiaryColour = Colors.white;
   static Color lettersColour = const Color(0xFF203033);
   static Color lettersAndIconsFaintColour = const Color(0xFF565759);
-  static Color focusedTextFormFieldColour = const Color(0xFF0B29EF);
+  static Color focusedTextFormFieldColour = Colors.green.shade300;
 
   static Color elevatedButtonBackgroundColour = Colors.white;
   static Color containersBackgroundColour = const Color(0xFF565759);
