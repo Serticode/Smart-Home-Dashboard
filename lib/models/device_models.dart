@@ -5,22 +5,17 @@ class DevicesSpecs {
   String? deviceName;
   String? deviceType;
   Uint8List? deviceImage;
-  String? inhouseDeviceLocation;
+  String? inHouseDeviceLocation;
 
-  DevicesSpecs(
-      this._deviceId,
-      this.deviceName,
-      this.deviceType,
-      this.deviceImage,
-      this.inhouseDeviceLocation
-      );
+  DevicesSpecs(this._deviceId, this.deviceName, this.deviceType,
+      this.deviceImage, this.inHouseDeviceLocation);
 
   DevicesSpecs.fromMap(Map<String, dynamic> map) {
     _deviceId = map['deviceId'];
     deviceName = map["deviceName"];
     deviceType = map['deviceType'];
     deviceImage = map["deviceImage"];
-    inhouseDeviceLocation = map["deviceLocation"];
+    inHouseDeviceLocation = map["deviceLocation"];
   }
 
   Map<String, dynamic> toMap() {
@@ -29,7 +24,7 @@ class DevicesSpecs {
       'deviceName': deviceName,
       'deviceType': deviceType,
       'deviceImage': deviceImage,
-      'deviceLocation': inhouseDeviceLocation,
+      'deviceLocation': inHouseDeviceLocation,
     };
     return map;
   }
