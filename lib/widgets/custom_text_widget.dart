@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:smart_home_dashboard/theme/theme.dart';
 
 class CustomTextWidget extends StatelessWidget {
   final String theText;
   final bool? isThisAHeader;
   final bool? isThisASubheader;
   final bool? isThisABody;
-  final bool? isThisAButton;
-  const CustomTextWidget(
-      {Key? key,
-      required this.theText,
-      required this.isThisAHeader,
-      required this.isThisASubheader,
-      required this.isThisABody,
-      required this.isThisAButton})
-      : super(key: key);
+  const CustomTextWidget({
+    Key? key,
+    required this.theText,
+    required this.isThisAHeader,
+    required this.isThisASubheader,
+    required this.isThisABody,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +21,7 @@ class CustomTextWidget extends StatelessWidget {
             : isThisASubheader!
                 ? Theme.of(context).textTheme.bodyText1
                 : isThisAHeader!
-                    ? Theme.of(context).textTheme.headline2
-                    : isThisAButton!
-                        ? GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            color: AppThemeColours.lettersColour,
-                            fontSize: 18.0)
-                        : Theme.of(context).textTheme.bodyText2);
+                    ? Theme.of(context).textTheme.headline1
+                    : Theme.of(context).textTheme.bodyText2);
   }
 }

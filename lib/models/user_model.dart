@@ -1,19 +1,14 @@
-import 'package:smart_home_dashboard/models/device_models.dart';
+import 'package:smart_home_dashboard/models/device_model.dart';
 
 class Users {
   int? _userId;
   String? email;
   String? _username;
   String? _password;
-  List<DevicesSpecs>? allUserDevices;
+  List<DeviceModel>? allUserDevices;
 
-  Users(
-      this._userId,
-      this.email,
-      this._username,
-      this._password,
-      this.allUserDevices
-      );
+  Users(this._userId, this.email, this._username, this._password,
+      this.allUserDevices);
 
   Users.fromMap(Map<String, dynamic> map) {
     _userId = map['id'];
@@ -34,5 +29,3 @@ class Users {
     return map;
   }
 }
-
-

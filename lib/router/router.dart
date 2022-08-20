@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_home_dashboard/router/routes.dart';
-import 'package:smart_home_dashboard/screens/home_screen/home_screen.dart';
+import 'package:smart_home_dashboard/screens/home_screen/home_screen_wrapper.dart';
 
 class AppNavigator {
   //! NAVIGATE TO A PAGE WITHOUT REPLACING THE PREVIOUS PAGE.
@@ -15,11 +15,11 @@ class AppNavigator {
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case AppRoutes.homeScreen:
+      case AppRoutes.homeScreenWrapper:
         return _getPageRoute(
             routeName: settings.name,
             args: settings.arguments,
-            view: const HomeScreen());
+            view: const HomeScreenWrapper());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

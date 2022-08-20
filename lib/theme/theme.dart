@@ -12,7 +12,6 @@ class AppTheme {
         }),
 
         //! COLOURS
-        //scaffoldBackgroundColor: AppThemeColours.primaryColour,
         backgroundColor: AppThemeColours.primaryColour,
         shadowColor: Colors.grey.shade100.withOpacity(0.2),
 
@@ -22,6 +21,10 @@ class AppTheme {
             secondary: AppThemeColours.secondaryColour,
             secondaryContainer: AppThemeColours.containersBackgroundColour,
             shadow: Colors.grey.shade100.withOpacity(0.2)),
+
+        //! ICON THEME
+        iconTheme:
+            IconThemeData(size: 21.0, color: AppThemeColours.tertiaryColour),
 
         //! SNACK BAR THEME
         snackBarTheme: SnackBarThemeData(
@@ -38,18 +41,22 @@ class AppTheme {
 
         //! TEXT
         textTheme: TextTheme(
-            headline2: GoogleFonts.poppins(
+            headline1: GoogleFonts.poppins(
                 fontWeight: FontWeight.w700,
                 fontSize: 32.0,
+                color: AppThemeColours.lettersColour),
+            headline2: GoogleFonts.poppins(
+                fontWeight: FontWeight.w700,
+                fontSize: 18.0,
                 color: AppThemeColours.lettersColour),
             bodyText1: GoogleFonts.poppins(
                 fontWeight: FontWeight.w500,
                 color: AppThemeColours.lettersColour,
-                fontSize: 21.0),
+                fontSize: 18.0),
             bodyText2: GoogleFonts.poppins(
                 fontWeight: FontWeight.w500,
                 color: AppThemeColours.lettersColour,
-                fontSize: 16.0)),
+                fontSize: 12.0)),
 
         //! ELEVATED BUTTON
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -59,7 +66,7 @@ class AppTheme {
                 textStyle: GoogleFonts.poppins(
                     fontWeight: FontWeight.w500,
                     color: AppThemeColours.lettersColour,
-                    fontSize: 16.0),
+                    fontSize: 12.0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(32.0)))),
 
@@ -94,16 +101,14 @@ class AppTheme {
                 fontWeight: FontWeight.w500,
                 color: AppThemeColours.lettersAndIconsFaintColour,
                 fontSize: 16.0),
-            labelStyle: GoogleFonts.poppins(
-                fontWeight: FontWeight.w400,
-                color: AppThemeColours.lettersAndIconsFaintColour,
-                fontSize: 12.0)));
+            labelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: AppThemeColours.lettersAndIconsFaintColour, fontSize: 12.0)));
   }
 }
 
 //! THEME COLOURS, SINGLETON INSTANCES & THEME COLOUR CLASS.
 class AppThemeColours {
   static Color primaryColour = const Color(0xFF203033);
+  static Color shadowColour = Color(0xFF21464d); //const Color(0xFF203033);
   static Color secondaryColour = const Color(0xFF1A224C);
   static Color tertiaryColour = Colors.white;
   static Color lettersColour = const Color(0xFF203033);

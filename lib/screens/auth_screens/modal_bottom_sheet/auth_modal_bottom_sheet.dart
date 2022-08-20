@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_home_dashboard/screens/auth_screens/login_screen/login_screen.dart';
 import 'package:smart_home_dashboard/screens/auth_screens/register_screen/register_screen.dart';
+import 'package:smart_home_dashboard/utils/app_functional_utils.dart';
 import 'package:smart_home_dashboard/utils/app_screen_utils.dart';
 import 'package:smart_home_dashboard/widgets/custom_text_widget.dart';
 
@@ -40,8 +41,7 @@ class AuthModalBottomSheet extends StatelessWidget {
                   theText: "What would you like to do?",
                   isThisAHeader: false,
                   isThisASubheader: false,
-                  isThisABody: true,
-                  isThisAButton: false),
+                  isThisABody: true),
 
               //! SPACER
               AppScreenUtils.verticalSpaceMedium,
@@ -56,7 +56,7 @@ class AuthModalBottomSheet extends StatelessWidget {
                         Navigator.of(context).pop();
 
                         //! SHOW MODAL SHEET
-                        AppScreenUtils.showAppModalBottomSheet(
+                        AppFunctionalUtils.showAppModalBottomSheet(
                             theBuildContext: context, child: const Login());
                       },
                       style: ElevatedButton.styleFrom(
@@ -75,7 +75,7 @@ class AuthModalBottomSheet extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: () =>
                           //! SHOW MODAL SHEET
-                          AppScreenUtils.showAppModalBottomSheet(
+                          AppFunctionalUtils.showAppModalBottomSheet(
                               theBuildContext: context,
                               child: const Register()),
                       style: ElevatedButton.styleFrom(
