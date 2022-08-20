@@ -42,22 +42,19 @@ class Confirm extends StatelessWidget {
                   theText: "Confirmation",
                   isThisAHeader: false,
                   isThisASubheader: false,
-                  isThisABody: true,
-                  isThisAButton: false),
+                  isThisABody: true),
 
               //! SPACER
               AppScreenUtils.verticalSpaceLarge,
 
               //! CONTENT
               Transform.scale(
-                scale: 3.0,
-                child: const CustomTextWidget(
-                    theText: _isUserAuthenticated ? "☺️" : "😔",
-                    isThisAHeader: false,
-                    isThisASubheader: false,
-                    isThisABody: true,
-                    isThisAButton: false),
-              ),
+                  scale: 2,
+                  child: const CustomTextWidget(
+                      theText: _isUserAuthenticated ? "☺️" : "😔",
+                      isThisAHeader: false,
+                      isThisASubheader: false,
+                      isThisABody: true)),
 
               //! SPACER
               AppScreenUtils.verticalSpaceLarge,
@@ -68,8 +65,7 @@ class Confirm extends StatelessWidget {
                       : "Authentication not successful.",
                   isThisAHeader: false,
                   isThisASubheader: false,
-                  isThisABody: true,
-                  isThisAButton: false),
+                  isThisABody: true),
 
               //! SPACER
               AppScreenUtils.verticalSpaceLarge,
@@ -85,7 +81,7 @@ class Confirm extends StatelessWidget {
 
                             //! GO TO HOME SCREEN
                             AppNavigator.navigateToReplacementPage(
-                                thePageRouteName: AppRoutes.homeScreen,
+                                thePageRouteName: AppRoutes.homeScreenWrapper,
                                 context: context);
                           },
                           style: ElevatedButton.styleFrom(
@@ -98,8 +94,7 @@ class Confirm extends StatelessWidget {
                           onPressed: () => Navigator.of(context).pop(),
                           style: ElevatedButton.styleFrom(
                               primary: AppThemeColours.primaryColour),
-                          child: Text("Kindly retry")),
-                    )
+                          child: Text("Kindly retry")))
             ])));
   }
 }

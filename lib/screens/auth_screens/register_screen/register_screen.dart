@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_home_dashboard/screens/auth_screens/confirmation_screen/confirmation_screen.dart';
 import 'package:smart_home_dashboard/screens/auth_screens/login_screen/login_screen.dart';
 import 'package:smart_home_dashboard/theme/theme.dart';
+import 'package:smart_home_dashboard/utils/app_functional_utils.dart';
 import 'package:smart_home_dashboard/utils/app_screen_utils.dart';
 import 'package:smart_home_dashboard/widgets/custom_text_widget.dart';
 
@@ -40,8 +41,7 @@ class Register extends StatelessWidget {
                   theText: "Register",
                   isThisAHeader: false,
                   isThisASubheader: false,
-                  isThisABody: true,
-                  isThisAButton: false),
+                  isThisABody: true),
 
               //! SPACER
               AppScreenUtils.verticalSpaceSmall,
@@ -84,7 +84,7 @@ class Register extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                     //! SHOW CONFIRMATION MESSAGE
-                    onPressed: () => AppScreenUtils.showAppModalBottomSheet(
+                    onPressed: () => AppFunctionalUtils.showAppModalBottomSheet(
                         theBuildContext: context, child: const Confirm()),
                     style: ElevatedButton.styleFrom(
                         primary: AppThemeColours.primaryColour),
@@ -100,8 +100,7 @@ class Register extends StatelessWidget {
                     theText: "Already have an account?",
                     isThisAHeader: false,
                     isThisASubheader: false,
-                    isThisABody: true,
-                    isThisAButton: false),
+                    isThisABody: true),
 
                 //! SPACER
                 AppScreenUtils.horizontalSpaceMedium,
@@ -113,15 +112,14 @@ class Register extends StatelessWidget {
                     Navigator.of(context).pop();
 
                     //! OPEN NEW MODAL SHEET
-                    AppScreenUtils.showAppModalBottomSheet(
+                    AppFunctionalUtils.showAppModalBottomSheet(
                         theBuildContext: context, child: const Login());
                   },
                   child: const CustomTextWidget(
                       theText: "Login",
                       isThisAHeader: false,
                       isThisASubheader: false,
-                      isThisABody: true,
-                      isThisAButton: false),
+                      isThisABody: true),
                 )
               ]),
 

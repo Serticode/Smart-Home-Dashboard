@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:smart_home_dashboard/screens/auth_screens/modal_bottom_sheet/auth_modal_bottom_sheet.dart';
+import 'package:smart_home_dashboard/utils/app_functional_utils.dart';
 import 'package:smart_home_dashboard/utils/app_screen_utils.dart';
 import 'package:smart_home_dashboard/widgets/custom_text_widget.dart';
 
-class Wrapper extends StatelessWidget {
+class Wrapper extends StatefulWidget {
   const Wrapper({Key? key}) : super(key: key);
 
+  @override
+  State<Wrapper> createState() => _WrapperState();
+}
+
+class _WrapperState extends State<Wrapper> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,8 +45,7 @@ class Wrapper extends StatelessWidget {
                                 theText: "Sweet & Smart Home",
                                 isThisAHeader: true,
                                 isThisABody: false,
-                                isThisASubheader: false,
-                                isThisAButton: false),
+                                isThisASubheader: false),
 
                             //! SPACER
                             AppScreenUtils.verticalSpaceMedium,
@@ -51,8 +56,7 @@ class Wrapper extends StatelessWidget {
                                     "Smart home can change the way you live in the future",
                                 isThisAHeader: false,
                                 isThisABody: true,
-                                isThisASubheader: false,
-                                isThisAButton: false),
+                                isThisASubheader: false),
 
                             //! SPACER
                             AppScreenUtils.verticalSpaceSmall
@@ -66,16 +70,12 @@ class Wrapper extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                           onPressed: () =>
-                              AppScreenUtils.showAppModalBottomSheet(
+                              AppFunctionalUtils.showAppModalBottomSheet(
                                   theBuildContext: context,
                                   child: AuthModalBottomSheet(
                                       theParentConstraints: constraints)),
-                          child: const CustomTextWidget(
-                              theText: "Get Smart",
-                              isThisAHeader: false,
-                              isThisABody: false,
-                              isThisASubheader: false,
-                              isThisAButton: true))),
+                          child: Text("Get Smart",
+                              style: Theme.of(context).textTheme.bodyText2))),
 
                   //! SPACER
                   AppScreenUtils.verticalSpaceMedium

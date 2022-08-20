@@ -4,5 +4,5 @@ class AppRoutes {
   static const String onboardingScreenRoute = "onboardingScreen";
 
   //! HOME SCREEN
-  static const String homeScreen = "homeScreen";
+  static const String homeScreenWrapper = "homeScreenWrapper";
 }

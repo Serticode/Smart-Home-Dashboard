@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_home_dashboard/screens/auth_screens/confirmation_screen/confirmation_screen.dart';
 import 'package:smart_home_dashboard/screens/auth_screens/register_screen/register_screen.dart';
 import 'package:smart_home_dashboard/theme/theme.dart';
+import 'package:smart_home_dashboard/utils/app_functional_utils.dart';
 import 'package:smart_home_dashboard/utils/app_screen_utils.dart';
 import 'package:smart_home_dashboard/widgets/custom_text_widget.dart';
 
@@ -40,8 +41,7 @@ class Login extends StatelessWidget {
                   theText: "Login",
                   isThisAHeader: false,
                   isThisASubheader: false,
-                  isThisABody: true,
-                  isThisAButton: false),
+                  isThisABody: true),
 
               //! SPACER
               AppScreenUtils.verticalSpaceSmall,
@@ -67,8 +67,9 @@ class Login extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                       //! SHOW CONFIRMATION MESSAGE
-                      onPressed: () => AppScreenUtils.showAppModalBottomSheet(
-                          theBuildContext: context, child: const Confirm()),
+                      onPressed: () =>
+                          AppFunctionalUtils.showAppModalBottomSheet(
+                              theBuildContext: context, child: const Confirm()),
                       style: ElevatedButton.styleFrom(
                           primary: AppThemeColours.primaryColour),
                       child: Text("Login"))),
@@ -82,8 +83,7 @@ class Login extends StatelessWidget {
                     theText: "Don't have an account?",
                     isThisAHeader: false,
                     isThisASubheader: false,
-                    isThisABody: true,
-                    isThisAButton: false),
+                    isThisABody: true),
 
                 //! SPACER
                 AppScreenUtils.horizontalSpaceMedium,
@@ -95,15 +95,14 @@ class Login extends StatelessWidget {
                     Navigator.of(context).pop();
 
                     //! OPEN NEW MODAL SHEET
-                    AppScreenUtils.showAppModalBottomSheet(
+                    AppFunctionalUtils.showAppModalBottomSheet(
                         theBuildContext: context, child: const Register());
                   },
                   child: const CustomTextWidget(
                       theText: "Register",
                       isThisAHeader: false,
                       isThisASubheader: false,
-                      isThisABody: true,
-                      isThisAButton: false),
+                      isThisABody: true),
                 )
               ]),
 

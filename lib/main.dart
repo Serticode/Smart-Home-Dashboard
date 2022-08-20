@@ -3,11 +3,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_home_dashboard/router/router.dart';
 import 'package:smart_home_dashboard/screens/wrapper/wrapper.dart';
 import 'package:smart_home_dashboard/theme/theme.dart';
+import 'package:smart_home_dashboard/utils/app_functional_utils.dart';
 
 void main() => runApp(const SmartHomeDashboard());
 
-class SmartHomeDashboard extends StatelessWidget {
+class SmartHomeDashboard extends StatefulWidget {
   const SmartHomeDashboard({Key? key}) : super(key: key);
+
+  @override
+  State<SmartHomeDashboard> createState() => _SmartHomeDashboardState();
+}
+
+class _SmartHomeDashboardState extends State<SmartHomeDashboard> {
+  @override
+  void initState() {
+    //! PRECACHE IMAGES
+    AppFunctionalUtils.precacheAppImages(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
