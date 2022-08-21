@@ -57,12 +57,14 @@ class _HomeScreenWrapperState extends State<HomeScreenWrapper> {
                               log("File picker fired!");
 
                               //! CALL FILE PICKER
-                              File _selectedImage =
+                              File? _selectedImage =
                                   await AppFunctionalUtils.pickProfilePhoto(
                                       theBuildContext: context);
 
-                              setState(
-                                  () => _userProfileImage = _selectedImage);
+                              _selectedImage != null
+                                  ? setState(
+                                      () => _userProfileImage = _selectedImage)
+                                  : SizedBox();
                             },
                             child: Container(
                                 height: 45.0,

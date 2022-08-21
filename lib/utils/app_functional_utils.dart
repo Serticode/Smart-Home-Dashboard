@@ -19,13 +19,14 @@ class AppFunctionalUtils {
   }
 
   //! PICK IMAGE
-  static Future<File> pickProfilePhoto(
+  static Future<File?>? pickProfilePhoto(
       {required BuildContext theBuildContext}) async {
     FilePickerResult? _pickedFile = await FilePicker.platform.pickFiles();
     File? _selectedImage;
 
     _pickedFile != null
         ? _selectedImage = File(_pickedFile.files.single.path!)
+        // ignore: unnecessary_statements
         : {
             //! LOG RESPONSE
             log("User did not select any image"),
@@ -34,7 +35,7 @@ class AppFunctionalUtils {
             showAppSnackBar(theBuildContext: theBuildContext)
           };
 
-    return _selectedImage!;
+    return _selectedImage;
   }
 
   //! SNACK BAR
@@ -42,7 +43,10 @@ class AppFunctionalUtils {
       ScaffoldMessenger.of(theBuildContext).showSnackBar(SnackBar(
           backgroundColor: AppThemeColours.primaryColour,
           content: Text("You did not select any image",
-              style: Theme.of(theBuildContext).textTheme.bodyText2)));
+              style: Theme.of(theBuildContext)
+                  .textTheme
+                  .bodyText2!
+                  .copyWith(color: AppThemeColours.tertiaryColour))));
 
   //! MODAL BOTTOM SHEET
   static showAppModalBottomSheet(

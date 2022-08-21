@@ -66,12 +66,10 @@ class AppDrawer extends StatelessWidget {
 
             //! OTHER CONTENT
             ListTile(
+                onTap: () => Navigator.pop(context),
                 leading: const Icon(Icons.person),
-                title: Text(
-                  "My Profile",
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-                onTap: () => Navigator.pop(context)),
+                title: Text("My Profile",
+                    style: Theme.of(context).textTheme.bodyText2)),
 
             //! SPACER
             Spacer(),
