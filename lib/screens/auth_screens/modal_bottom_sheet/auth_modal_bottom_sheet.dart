@@ -57,7 +57,7 @@ class AuthModalBottomSheet extends StatelessWidget {
 
                         //! SHOW MODAL SHEET
                         AppFunctionalUtils.showAppModalBottomSheet(
-                            theBuildContext: context, child: const Login());
+                            theBuildContext: context, child:  Login());
                       },
                       style: ElevatedButton.styleFrom(
                           side: BorderSide(
@@ -77,7 +77,7 @@ class AuthModalBottomSheet extends StatelessWidget {
                           //! SHOW MODAL SHEET
                           AppFunctionalUtils.showAppModalBottomSheet(
                               theBuildContext: context,
-                              child: const Register()),
+                              child: Register()),
                       style: ElevatedButton.styleFrom(
                           primary: Theme.of(context).colorScheme.primary),
                       child: const Text("Register")))
