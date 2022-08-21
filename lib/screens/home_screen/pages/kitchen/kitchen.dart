@@ -16,13 +16,13 @@ class _KitchenState extends State<Kitchen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: HouseRoomModel.listOfDevicesInKitchen.isEmpty
-          ? Center(child: Text("You haven't added any device to this room."))
-          : MasonryGridView.count(
-              itemCount: HouseRoomModel.listOfDevicesInKitchen.length,
-              crossAxisCount: 2,
-              mainAxisSpacing: 21,
-              itemBuilder: (context, index) => Card(
+        body: HouseRoomModel.listOfDevicesInKitchen.isEmpty
+            ? Center(child: Text("You haven't added any device to this room."))
+            : MasonryGridView.count(
+                itemCount: HouseRoomModel.listOfDevicesInKitchen.length,
+                crossAxisCount: 2,
+                mainAxisSpacing: 21,
+                itemBuilder: (context, index) => Card(
                     elevation: 12.0,
                     color: AppThemeColours.tertiaryColour.withOpacity(0.8),
                     shape: RoundedRectangleBorder(
@@ -80,43 +80,42 @@ class _KitchenState extends State<Kitchen> {
 
                           //! BOTTOM
                           Container(
-                            width: double.infinity,
-                            color: AppThemeColours.primaryColour,
-                            padding: AppScreenUtils.deviceCardPadding,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  //! SPACER
-                                  AppScreenUtils.verticalSpaceSmall,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFFBCC1C2),
+                                  borderRadius: BorderRadius.circular(12.0)),
+                              padding: AppScreenUtils.deviceCardPadding,
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //! SPACER
+                                    AppScreenUtils.verticalSpaceSmall,
 
-                                  //! DEVICE NAME
-                                  Text(
-                                      DeviceModel.fromMap(HouseRoomModel
-                                                  .listOfDevicesInKitchen[index]
-                                              ["deviceDetails"])
-                                          .deviceName!,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2!
-                                          .copyWith(color: Colors.white)),
+                                    //! DEVICE NAME
+                                    Text(
+                                        DeviceModel.fromMap(HouseRoomModel
+                                                    .listOfDevicesInKitchen[
+                                                index]["deviceDetails"])
+                                            .deviceName!,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2!
+                                            .copyWith(color: Colors.white)),
 
-                                  //! SPACER
-                                  AppScreenUtils.verticalSpaceSmall,
+                                    //! SPACER
+                                    AppScreenUtils.verticalSpaceSmall,
 
-                                  //! DEVICE LOCATION
-                                  Text(
-                                      "Location: ${DeviceModel.fromMap(HouseRoomModel.listOfDevicesInKitchen[index]["deviceDetails"]).inHouseDeviceLocation!}",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText2!
-                                          .copyWith(color: Colors.white)),
+                                    //! DEVICE LOCATION
+                                    Text(
+                                        "Location: ${DeviceModel.fromMap(HouseRoomModel.listOfDevicesInKitchen[index]["deviceDetails"]).inHouseDeviceLocation!}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2!
+                                            .copyWith(color: Colors.white)),
 
-                                  //! SPACER
-                                  AppScreenUtils.verticalSpaceSmall,
-                                ]),
-                          ),
-                        ]),
-                  )),
-    );
+                                    //! SPACER
+                                    AppScreenUtils.verticalSpaceSmall
+                                  ]))
+                        ]))));
   }
 }
