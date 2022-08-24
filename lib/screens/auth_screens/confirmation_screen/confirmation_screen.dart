@@ -6,9 +6,9 @@ import 'package:smart_home_dashboard/utils/app_screen_utils.dart';
 import 'package:smart_home_dashboard/widgets/custom_text_widget.dart';
 
 class Confirm extends StatelessWidget {
-  const Confirm({Key? key}) : super(key: key);
-
-  static const bool _isUserAuthenticated = true;
+  final bool isUserAuthenticated;
+  const Confirm({Key? key, required this.isUserAuthenticated})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +50,8 @@ class Confirm extends StatelessWidget {
               //! CONTENT
               Transform.scale(
                   scale: 2,
-                  child: const CustomTextWidget(
-                      theText: _isUserAuthenticated ? "☺️" : "😔",
+                  child: CustomTextWidget(
+                      theText: isUserAuthenticated ? "☺️" : "😔",
                       isThisAHeader: false,
                       isThisASubheader: false,
                       isThisABody: true)),
@@ -59,8 +59,8 @@ class Confirm extends StatelessWidget {
               //! SPACER
               AppScreenUtils.verticalSpaceLarge,
 
-              const CustomTextWidget(
-                  theText: _isUserAuthenticated
+              CustomTextWidget(
+                  theText: isUserAuthenticated
                       ? "You have been authenticated. \nWelcome."
                       : "Authentication not successful.",
                   isThisAHeader: false,
@@ -71,11 +71,11 @@ class Confirm extends StatelessWidget {
               AppScreenUtils.verticalSpaceLarge,
 
               //! LOADER OR AUTH BUTTON
-              _isUserAuthenticated
+              isUserAuthenticated
                   ? SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             //! CLOSE CURRENT MODAL
                             Navigator.of(context).pop();
 

@@ -1,19 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:smart_home_dashboard/models/device_model.dart';
 
 class HouseRoomModel {
   //! LIST OF ROOMS
   static const List<Map<String, dynamic>> listOfRooms = [
-    {"roomName": "Living room", "roomIcon": Icons.living_outlined},
-    {"roomName": "Bedroom", "roomIcon": Icons.bed_outlined},
-    {"roomName": "Kitchen", "roomIcon": Icons.kitchen_outlined},
-    {"roomName": "Dining", "roomIcon": Icons.dining_outlined},
-    {"roomName": "Lounge", "roomIcon": Icons.weekend_outlined}
+    {
+      "roomName": "Living room",
+      "customRoomName": "",
+      "roomIcon": Icons.living_outlined
+    },
+    {
+      "roomName": "Bedroom",
+      "customRoomName": "",
+      "roomIcon": Icons.bed_outlined
+    },
+    {
+      "roomName": "Kitchen",
+      "customRoomName": "",
+      "roomIcon": Icons.kitchen_outlined
+    },
+    {
+      "roomName": "Dining",
+      "customRoomName": "",
+      "roomIcon": Icons.dining_outlined
+    },
+    {
+      "roomName": "Lounge",
+      "customRoomName": "",
+      "roomIcon": Icons.weekend_outlined
+    }
   ];
 
   //! LIST OF DEVICES PER ROOM
   //! LIVING ROOM
-  static List<Map<String, dynamic>> listOfDevicesInLivingRoom = [
-    {
+  static List<DeviceModel> listOfDevicesInLivingRoom = [
+    /* {
       "deviceImage": AssetImage("assets/abbey.jpg"),
       "deviceDetails": {
         "deviceId": "1",
@@ -22,80 +43,18 @@ class HouseRoomModel {
         "inHouseDeviceLocation": "Bedroom",
         "isDeviceOn": "false"
       }
-    },
-    {
-      "deviceImage": AssetImage("assets/bedroom.jpg"),
-      "deviceDetails": {
-        "deviceId": "2",
-        "deviceName": "Samsung Smart TV",
-        "deviceType": "Television",
-        "inHouseDeviceLocation": "Living room",
-        "isDeviceOn": "false"
-      }
-    },
-    {
-      "deviceImage": AssetImage("assets/dining.jpg"),
-      "deviceDetails": {
-        "deviceId": "3",
-        "deviceName": "LG Freezer",
-        "deviceType": "Freezer",
-        "inHouseDeviceLocation": "Kitchen",
-        "isDeviceOn": "false"
-      }
-    },
-    {
-      "deviceImage": AssetImage("assets/living_room.jpg"),
-      "deviceDetails": {
-        "deviceId": "4",
-        "deviceName": "Serticode Home Alarm",
-        "deviceType": "Alarm System",
-        "inHouseDeviceLocation": "Walk way",
-        "isDeviceOn": "false"
-      }
-    },
-    {
-      "deviceImage": AssetImage("assets/lounge.jpg"),
-      "deviceDetails": {
-        "deviceId": "5",
-        "deviceName": "Apple Vacuum Cleaner",
-        "deviceType": "Vacuum Cleaner",
-        "inHouseDeviceLocation": "Storage",
-        "isDeviceOn": "false"
-      }
-    },
+    },*/
   ];
 
   //! BEDROOM
-  static List<Map<String, dynamic>> listOfDevicesInBedroom = [];
+  static List<DeviceModel> listOfDevicesInBedroom = [];
 
   //! KITCHEN
-  static List<Map<String, dynamic>> listOfDevicesInKitchen = [
-    {
-      "deviceImage": AssetImage("assets/abbey.jpg"),
-      "deviceDetails": {
-        "deviceId": "1",
-        "deviceName": "JBL Surround Sound",
-        "deviceType": "Speaker",
-        "inHouseDeviceLocation": "Bedroom",
-        "isDeviceOn": "false"
-      }
-    }
-  ];
+  static List<DeviceModel> listOfDevicesInKitchen = [];
 
   //! DINING
-  static List<Map<String, dynamic>> listOfDevicesInDinning = [];
+  static List<DeviceModel> listOfDevicesInDining = [];
 
   //! LOUNGE
-  static List<Map<String, dynamic>> listOfDevicesInLounge = [
-    {
-      "deviceImage": AssetImage("assets/abbey.jpg"),
-      "deviceDetails": {
-        "deviceId": "1",
-        "deviceName": "JBL Surround Sound",
-        "deviceType": "Speaker",
-        "inHouseDeviceLocation": "Bedroom",
-        "isDeviceOn": "false"
-      }
-    }
-  ];
+  static List<DeviceModel> listOfDevicesInLounge = [];
 }

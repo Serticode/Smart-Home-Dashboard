@@ -1,30 +1,47 @@
-import 'package:smart_home_dashboard/models/device_model.dart';
+import 'dart:typed_data';
 
-class Users {
-  int? _userId;
-  String? email;
-  String? _username;
-  String? _password;
-  List<DeviceModel>? allUserDevices;
+import "package:hive/hive.dart";
+part "user_model.g.dart";
 
-  Users(this._userId, this.email, this._username, this._password,
-      this.allUserDevices);
+@HiveType(typeId: 0)
+class Users extends HiveObject {
+  @HiveField(0)
+  late String? email;
 
-  Users.fromMap(Map<String, dynamic> map) {
-    _userId = map['id'];
+  @HiveField(1)
+  late String? fullName;
+
+  @HiveField(2)
+  late String? userName;
+
+  @HiveField(3)
+  late String? password;
+
+  @HiveField(4)
+  late Uint8List? userImage;
+
+  Users(
+      {this.email,
+      this.fullName,
+      this.userName,
+      this.password,
+      this.userImage});
+
+  Users.fromMap(Map<dynamic, dynamic> map) {
     email = map["email"];
-    _username = map['username'];
-    _password = map["password"];
-    allUserDevices = map["allDevices"];
+    fullName = map["fullName"];
+    userName = map['userName'];
+    password = map["password"];
+    userImage = map["userImage"];
   }
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      'id': _userId,
       'email': email,
-      'username': _username,
-      'password': _password,
-      'allDevices': allUserDevices,
+      "fullName": fullName,
+      'userName': userName,
+      'password': password,
+      "userImage": userImage
     };
     return map;
   }
