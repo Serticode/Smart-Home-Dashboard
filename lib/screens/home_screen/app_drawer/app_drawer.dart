@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smart_home_dashboard/router/router.dart';
+import 'package:smart_home_dashboard/router/routes.dart';
+import 'package:smart_home_dashboard/services/auth/auth_services.dart';
 import 'package:smart_home_dashboard/theme/theme.dart';
 import 'package:smart_home_dashboard/utils/app_functional_utils.dart';
 import 'package:smart_home_dashboard/utils/app_screen_utils.dart';
 
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({Key? key}) : super(key: key);
+  final String userName, userEmail;
+  const AppDrawer({
+    Key? key,
+    required this.userName,
+    required this.userEmail,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => SafeArea(
@@ -42,7 +50,7 @@ class AppDrawer extends StatelessWidget {
                               AppScreenUtils.verticalSpaceMedium,
 
                               //! NAME
-                              Text("Serticode",
+                              Text(this.userName,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText2!
@@ -54,7 +62,7 @@ class AppDrawer extends StatelessWidget {
                               AppScreenUtils.verticalSpaceTiny,
 
                               //! EMAIL
-                              Text("you@you.com",
+                              Text(this.userEmail,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText2!
@@ -67,8 +75,8 @@ class AppDrawer extends StatelessWidget {
             //! OTHER CONTENT
             ListTile(
                 onTap: () => Navigator.pop(context),
-                leading: const Icon(Icons.person),
-                title: Text("My Profile",
+                leading: const Icon(Icons.room_outlined),
+                title: Text("Rooms",
                     style: Theme.of(context).textTheme.bodyText2)),
 
             //! SPACER
@@ -145,10 +153,22 @@ class AppDrawer extends StatelessWidget {
                                         SizedBox(
                                             width: double.infinity,
                                             child: ElevatedButton(
-                                                onPressed: () {},
+                                                onPressed: () async {
+                                                  if (await AppAuthService
+                                                      .logOutUser()) {
+                                                    Navigator.of(context).pop();
+                                                    Navigator.of(context).pop();
+                                                    AppNavigator
+                                                        .navigateToReplacementPage(
+                                                            thePageRouteName:
+                                                                AppRoutes
+                                                                    .appWrapper,
+                                                            context: context);
+                                                  }
+                                                },
                                                 style: ElevatedButton.styleFrom(
                                                     primary:
-                                                        Colors.red.shade300),
+                                                        Colors.red.shade200),
                                                 child: Text("Log out",
                                                     style: Theme.of(context)
                                                         .textTheme

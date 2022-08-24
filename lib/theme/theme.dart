@@ -24,7 +24,7 @@ class AppTheme {
 
         //! ICON THEME
         iconTheme:
-            IconThemeData(size: 21.0, color: AppThemeColours.tertiaryColour),
+            IconThemeData(size: 24.0, color: AppThemeColours.tertiaryColour),
 
         //! SNACK BAR THEME
         snackBarTheme: SnackBarThemeData(
@@ -88,20 +88,23 @@ class AppTheme {
                     width: 2.0,
                     color: AppThemeColours.focusedTextFormFieldColour),
                 borderRadius: BorderRadius.circular(21.0)),
+            border: OutlineInputBorder(
+                borderSide: BorderSide(
+                    width: 2.0,
+                    color: AppThemeColours.focusedTextFormFieldColour),
+                borderRadius: BorderRadius.circular(21.0)),
+            errorBorder: OutlineInputBorder(borderSide: BorderSide(width: 2.0, color: AppThemeColours.textFormFieldErrorColour), borderRadius: BorderRadius.circular(21.0)),
 
             //! HINT
-            hintStyle: GoogleFonts.poppins(
-                fontWeight: FontWeight.w500,
-                color: AppThemeColours.lettersAndIconsFaintColour,
-                fontSize: 12.0),
+            hintStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, color: AppThemeColours.lettersAndIconsFaintColour, fontSize: 12.0),
 
             //! LABEL
             alignLabelWithHint: true,
-            floatingLabelStyle: GoogleFonts.poppins(
-                fontWeight: FontWeight.w500,
-                color: AppThemeColours.lettersAndIconsFaintColour,
-                fontSize: 16.0),
-            labelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: AppThemeColours.lettersAndIconsFaintColour, fontSize: 12.0)));
+            floatingLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, color: AppThemeColours.lettersAndIconsFaintColour, fontSize: 16.0),
+            labelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: AppThemeColours.lettersAndIconsFaintColour, fontSize: 12.0),
+
+            //! ERROR
+            errorStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12.0, color: AppThemeColours.textFormFieldErrorColour)));
   }
 }
 
@@ -113,7 +116,8 @@ class AppThemeColours {
   static Color tertiaryColour = Colors.white;
   static Color lettersColour = const Color(0xFF203033);
   static Color lettersAndIconsFaintColour = const Color(0xFF565759);
-  static Color focusedTextFormFieldColour = Colors.green.shade300;
+  static Color focusedTextFormFieldColour = Colors.green.shade500;
+  static Color textFormFieldErrorColour = Colors.red.shade900;
 
   static Color elevatedButtonBackgroundColour = Colors.white;
   static Color containersBackgroundColour = const Color(0xFF565759);

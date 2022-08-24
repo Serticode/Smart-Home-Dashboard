@@ -1,8 +1,11 @@
+// ignore_for_file: unnecessary_statements
+
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_home_dashboard/models/device_model.dart';
 import 'package:smart_home_dashboard/theme/theme.dart';
 import 'package:smart_home_dashboard/utils/app_screen_utils.dart';
 
@@ -26,23 +29,25 @@ class AppFunctionalUtils {
 
     _pickedFile != null
         ? _selectedImage = File(_pickedFile.files.single.path!)
-        // ignore: unnecessary_statements
         : {
             //! LOG RESPONSE
             log("User did not select any image"),
 
             //! SHOW SNACK BAR
-            showAppSnackBar(theBuildContext: theBuildContext)
+            showAppSnackBar(
+                theBuildContext: theBuildContext,
+                message: "You did not select any image.")
           };
 
     return _selectedImage;
   }
 
   //! SNACK BAR
-  static showAppSnackBar({required BuildContext theBuildContext}) =>
+  static showAppSnackBar(
+          {required BuildContext theBuildContext, required String message}) =>
       ScaffoldMessenger.of(theBuildContext).showSnackBar(SnackBar(
           backgroundColor: AppThemeColours.primaryColour,
-          content: Text("You did not select any image",
+          content: Text(message,
               style: Theme.of(theBuildContext)
                   .textTheme
                   .bodyText2!
@@ -101,4 +106,64 @@ class AppFunctionalUtils {
       pageController.animateToPage(index,
           duration: const Duration(seconds: 1),
           curve: Curves.fastLinearToSlowEaseIn);
+
+  //! APP DEVICE REUSABLE WIDGET
+  static Widget deviceWidget(
+          {required DeviceModel device,
+          required BuildContext theBuildContext}) =>
+      Card(
+          elevation: 12.0,
+          color: AppThemeColours.tertiaryColour.withOpacity(0.8),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+              side:
+                  BorderSide(width: 1.5, color: AppThemeColours.primaryColour)),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            //! SPACER
+            AppScreenUtils.verticalSpaceTiny,
+
+            Container(
+                padding: AppScreenUtils.deviceCardPadding,
+                child: Column(children: [
+                  Container(
+                      height: 150,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.0)),
+                      child: device.deviceImageBytes == null
+                          ? Text("No Image added for this device",
+                              style:
+                                  Theme.of(theBuildContext).textTheme.bodyText2)
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ))
+                ])),
+
+            //! BOTTOM
+            Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: const Color(0xFFBCC1C2),
+                    borderRadius: BorderRadius.circular(12.0)),
+                padding: AppScreenUtils.deviceCardPadding,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //! SPACER
+                      AppScreenUtils.verticalSpaceSmall,
+
+                      //! DEVICE NAME
+                      Text(device.deviceName!),
+
+                      //! SPACER
+                      AppScreenUtils.verticalSpaceSmall,
+
+                      //! DEVICE LOCATION
+                      Text("Location: ${device.inHouseDeviceLocation!}"),
+
+                      //! SPACER
+                      AppScreenUtils.verticalSpaceSmall
+                    ]))
+          ]));
 }
