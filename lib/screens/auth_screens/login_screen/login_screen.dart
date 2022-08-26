@@ -1,15 +1,13 @@
+// ignore_for_file: unnecessary_statements
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:smart_home_dashboard/models/device_model.dart';
 import 'package:smart_home_dashboard/screens/auth_screens/confirmation_screen/confirmation_screen.dart';
 import 'package:smart_home_dashboard/screens/auth_screens/register_screen/register_screen.dart';
 import 'package:smart_home_dashboard/services/auth/auth_services.dart';
 import 'package:smart_home_dashboard/theme/theme.dart';
 import 'package:smart_home_dashboard/utils/app_functional_utils.dart';
 import 'package:smart_home_dashboard/utils/app_screen_utils.dart';
-import 'package:smart_home_dashboard/widgets/custom_text_widget.dart';
 
 class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
@@ -69,11 +67,7 @@ class _LoginState extends State<Login> {
                 AppScreenUtils.verticalSpaceSmall,
 
                 //! CONTENT
-                const CustomTextWidget(
-                    theText: "Login",
-                    isThisAHeader: false,
-                    isThisASubheader: false,
-                    isThisABody: true),
+                Text("Login", style: Theme.of(context).textTheme.bodyText1),
 
                 //! SPACER
                 AppScreenUtils.verticalSpaceSmall,
@@ -138,27 +132,7 @@ class _LoginState extends State<Login> {
                                     password: _passwordController!.text);
 
                             _isUserAuthenticated
-                                // ignore: unnecessary_statements
                                 ? {
-                                    //! OPEN THE BOX OF USERS DEVICES
-                                    //! OPEN ALL DATA BASE BOXES
-                                    await Hive.openBox<DeviceModel>(
-                                            "Living room")
-                                        .whenComplete(
-                                            () => log("box open! Living room")),
-                                    await Hive.openBox<DeviceModel>("Kitchen")
-                                        .whenComplete(
-                                            () => log("box open! Kitchen")),
-                                    await Hive.openBox<DeviceModel>("Dining")
-                                        .whenComplete(
-                                            () => log("box open! Dining")),
-                                    await Hive.openBox<DeviceModel>("Lounge")
-                                        .whenComplete(
-                                            () => log("box open! Lounge")),
-                                    await Hive.openBox<DeviceModel>("Bedroom")
-                                        .whenComplete(
-                                            () => log("box open! Bedroom")),
-
                                     //! CLEAR CONTROLLERS
                                     _emailController!.clear(),
                                     _passwordController!.clear(),
@@ -169,9 +143,11 @@ class _LoginState extends State<Login> {
                                             isUserAuthenticated:
                                                 _isUserAuthenticated)),
                                   }
-                                : AppFunctionalUtils.showAppSnackBar(
+                                : AppFunctionalUtils.showAppModalBottomSheet(
                                     theBuildContext: context,
-                                    message: "Authentication Failed");
+                                    child: Confirm(
+                                        isUserAuthenticated:
+                                            _isUserAuthenticated));
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -183,11 +159,7 @@ class _LoginState extends State<Login> {
 
                 //! CONTENT
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  const CustomTextWidget(
-                      theText: "Don't have an account?",
-                      isThisAHeader: false,
-                      isThisASubheader: false,
-                      isThisABody: true),
+                  const Text("Don't have an account?"),
 
                   //! SPACER
                   AppScreenUtils.horizontalSpaceMedium,
@@ -202,11 +174,7 @@ class _LoginState extends State<Login> {
                         AppFunctionalUtils.showAppModalBottomSheet(
                             theBuildContext: context, child: Register());
                       },
-                      child: const CustomTextWidget(
-                          theText: "Register",
-                          isThisAHeader: false,
-                          isThisASubheader: false,
-                          isThisABody: true))
+                      child: const Text("Register"))
                 ]),
 
                 //! SPACER

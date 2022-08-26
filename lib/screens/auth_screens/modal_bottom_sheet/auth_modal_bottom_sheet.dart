@@ -3,7 +3,6 @@ import 'package:smart_home_dashboard/screens/auth_screens/login_screen/login_scr
 import 'package:smart_home_dashboard/screens/auth_screens/register_screen/register_screen.dart';
 import 'package:smart_home_dashboard/utils/app_functional_utils.dart';
 import 'package:smart_home_dashboard/utils/app_screen_utils.dart';
-import 'package:smart_home_dashboard/widgets/custom_text_widget.dart';
 
 class AuthModalBottomSheet extends StatelessWidget {
   final BoxConstraints theParentConstraints;
@@ -37,11 +36,7 @@ class AuthModalBottomSheet extends StatelessWidget {
               AppScreenUtils.verticalSpaceSmall,
 
               //! CONTENT
-              const CustomTextWidget(
-                  theText: "What would you like to do?",
-                  isThisAHeader: false,
-                  isThisASubheader: false,
-                  isThisABody: true),
+              const Text("What would you like to do?"),
 
               //! SPACER
               AppScreenUtils.verticalSpaceMedium,
@@ -57,7 +52,7 @@ class AuthModalBottomSheet extends StatelessWidget {
 
                         //! SHOW MODAL SHEET
                         AppFunctionalUtils.showAppModalBottomSheet(
-                            theBuildContext: context, child:  Login());
+                            theBuildContext: context, child: Login());
                       },
                       style: ElevatedButton.styleFrom(
                           side: BorderSide(
@@ -76,8 +71,7 @@ class AuthModalBottomSheet extends StatelessWidget {
                       onPressed: () =>
                           //! SHOW MODAL SHEET
                           AppFunctionalUtils.showAppModalBottomSheet(
-                              theBuildContext: context,
-                              child: Register()),
+                              theBuildContext: context, child: Register()),
                       style: ElevatedButton.styleFrom(
                           primary: Theme.of(context).colorScheme.primary),
                       child: const Text("Register")))

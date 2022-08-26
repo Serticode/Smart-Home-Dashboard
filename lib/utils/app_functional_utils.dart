@@ -17,6 +17,7 @@ class AppFunctionalUtils {
     await precacheImage(const AssetImage("assets/dining.jpg"), context);
     await precacheImage(const AssetImage("assets/living_room.jpg"), context);
     await precacheImage(const AssetImage("assets/lounge.jpg"), context);
+    await precacheImage(const AssetImage("assets/user.jpg"), context);
     await precacheImage(
         const AssetImage("assets/smart_home_logo.png"), context);
   }
@@ -46,6 +47,7 @@ class AppFunctionalUtils {
   static showAppSnackBar(
           {required BuildContext theBuildContext, required String message}) =>
       ScaffoldMessenger.of(theBuildContext).showSnackBar(SnackBar(
+          duration: Duration(seconds: 2),
           backgroundColor: AppThemeColours.primaryColour,
           content: Text(message,
               style: Theme.of(theBuildContext)
@@ -109,8 +111,7 @@ class AppFunctionalUtils {
 
   //! APP DEVICE REUSABLE WIDGET
   static Widget deviceWidget(
-          {required DeviceModel device,
-          required BuildContext theBuildContext}) =>
+          {required Device device, required BuildContext theBuildContext}) =>
       Card(
           elevation: 12.0,
           color: AppThemeColours.tertiaryColour.withOpacity(0.8),

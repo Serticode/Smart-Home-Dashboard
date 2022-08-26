@@ -20,7 +20,7 @@ class _LivingRoomState extends State<LivingRoom> {
 
   @override
   void initState() {
-    _livingRoomDevices = Hive.box<DeviceModel>("Living room");
+    _livingRoomDevices = Hive.box<Device>("Living room");
 
     super.initState();
   }
@@ -58,16 +58,17 @@ class _LivingRoomState extends State<LivingRoom> {
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  child: _livingRoomDevices.values
-                                              .elementAt(index)
-                                              .deviceImageBytes ==
-                                          null
-                                      ? Center(child: Text("No image Added"))
-                                      : Image.memory(_livingRoomDevices.values
-                                          .elementAt(index)
-                                          .deviceImageBytes),
-                                ),
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    child: _livingRoomDevices.values
+                                                .elementAt(index)
+                                                .deviceImageBytes ==
+                                            null
+                                        ? Center(child: Text("No image Added"))
+                                        : Image.memory(
+                                            _livingRoomDevices.values
+                                                .elementAt(index)
+                                                .deviceImageBytes,
+                                            fit: BoxFit.cover)),
                               ),
 
                               //! SWITCH
@@ -132,6 +133,14 @@ class _LivingRoomState extends State<LivingRoom> {
                                         //! SPACER
                                         AppScreenUtils.verticalSpaceSmall,
 
+                                        //! DEVICE NAME
+                                        Text(_livingRoomDevices.values
+                                            .elementAt(index)
+                                            .deviceType!),
+
+                                        //! SPACER
+                                        AppScreenUtils.verticalSpaceSmall,
+
                                         //! DEVICE LOCATION
                                         Text(_livingRoomDevices.values
                                             .elementAt(index)
@@ -145,20 +154,101 @@ class _LivingRoomState extends State<LivingRoom> {
                                     AppScreenUtils.verticalSpaceSmall,
 
                                     InkWell(
-                                        onTap: () => showAppDialogBox(
-                                            theBuildContext: context,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.2,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.8,
-                                            deviceName: _livingRoomDevices
-                                                .values
-                                                .elementAt(index)
-                                                .deviceName!),
+                                        onTap: () => AppFunctionalUtils
+                                            .showAppModalBottomSheet(
+                                                theBuildContext: context,
+                                                child: SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.2,
+                                                    width: double.infinity,
+                                                    child: Padding(
+                                                        padding: AppScreenUtils
+                                                            .cardPadding,
+                                                        child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              //! CLOSE BUTTON
+                                                              //! CLOSE BUTTON &&  HEADER
+                                                              Row(children: [
+                                                                IconButton(
+                                                                    onPressed:
+                                                                        () =>
+                                                                            //! CLOSE NAVIGATOR
+                                                                            Navigator.of(context)
+                                                                                .pop(),
+                                                                    icon: Icon(
+                                                                        Icons
+                                                                            .close,
+                                                                        color: AppThemeColours
+                                                                            .primaryColour)),
+
+                                                                //! SPACER
+                                                                AppScreenUtils
+                                                                    .horizontalSpaceMedium,
+
+                                                                //! HEADER
+                                                                Text(
+                                                                    "Control ${_livingRoomDevices.values.elementAt(index).deviceName!} ",
+                                                                    style: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .bodyText2!
+                                                                        .copyWith(
+                                                                            fontSize:
+                                                                                12.0,
+                                                                            fontWeight:
+                                                                                FontWeight.w500))
+                                                              ]),
+
+                                                              //! SPACER
+                                                              AppScreenUtils
+                                                                  .verticalSpaceSmall,
+
+                                                              Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    //! ICON
+                                                                    Icon(
+                                                                        Icons
+                                                                            .speaker_outlined,
+                                                                        color: AppThemeColours
+                                                                            .primaryColour),
+
+                                                                    //! SPACER
+                                                                    AppScreenUtils
+                                                                        .horizontalSpaceMedium,
+
+                                                                    //! SLIDER
+                                                                    StatefulBuilder(builder:
+                                                                        (context,
+                                                                            state) {
+                                                                      return Slider(
+                                                                          min:
+                                                                              1.0,
+                                                                          max:
+                                                                              100,
+                                                                          divisions:
+                                                                              10,
+                                                                          value:
+                                                                              _sliderValue,
+                                                                          onChanged:
+                                                                              (value) {
+                                                                            state(() {
+                                                                              _sliderValue = value;
+                                                                            });
+
+                                                                            setState(() {});
+                                                                          });
+                                                                    })
+                                                                  ])
+                                                            ])))),
                                         child: Icon(Icons.devices_outlined,
                                             color:
                                                 AppThemeColours.primaryColour)),
@@ -181,74 +271,4 @@ class _LivingRoomState extends State<LivingRoom> {
                               ))
                         ]))));
   }
-
-  showAppDialogBox(
-          {required BuildContext theBuildContext,
-          required double width,
-          required String deviceName,
-          required double height}) =>
-      showGeneralDialog(
-          //!SHADOW EFFECT
-          barrierColor: AppThemeColours.primaryColour.withOpacity(0.5),
-
-          //! OTHER NEEDED PARAMETERS
-          barrierDismissible: false,
-          barrierLabel: "LABEL",
-          context: theBuildContext,
-
-          //! USE PROVIDED ANIMATION
-          transitionBuilder: (context, a1, a2, widget) => Dialog(
-              elevation: 12.0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(21)),
-              child: SizedBox(
-                  height: height * a1.value,
-                  width: width * a1.value,
-                  child: SingleChildScrollView(
-                      padding: AppScreenUtils.cardPadding,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //! CLOSE BUTTON &&  HEADER
-                            Row(children: [
-                              IconButton(
-                                  onPressed: () =>
-                                      //! CLOSE NAVIGATOR
-                                      Navigator.of(context).pop(),
-                                  icon: Icon(Icons.close,
-                                      color: AppThemeColours.primaryColour)),
-
-                              //! SPACER
-                              AppScreenUtils.horizontalSpaceSmall,
-
-                              //! HEADER
-                              Text("Control $deviceName ",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2!
-                                      .copyWith(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w500))
-                            ]),
-
-                            AppScreenUtils.verticalSpaceSmall,
-
-                            Row(children: [
-                              Icon(Icons.speaker_outlined,
-                                  color: AppThemeColours.primaryColour),
-                              Slider(
-                                  min: 1.0,
-                                  max: 100,
-                                  divisions: 10,
-                                  value: _sliderValue,
-                                  onChanged: (value) =>
-                                      setState(() => _sliderValue = value))
-                            ])
-                          ])))),
-
-          //! ANIMATION DURATION
-          transitionDuration: Duration(milliseconds: 200),
-
-          //! STILL DON'T KNOW WHAT THIS DOES, BUT IT'S REQUIRED
-          pageBuilder: (context, animation1, animation2) => Text(""));
 }

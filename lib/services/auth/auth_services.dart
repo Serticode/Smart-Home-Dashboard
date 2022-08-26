@@ -1,13 +1,29 @@
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:hive/hive.dart';
+import 'package:smart_home_dashboard/models/device_model.dart';
 import 'package:smart_home_dashboard/models/user_model.dart';
 
 class AppAuthService {
-  //! GENERAL USERS BOX
-  static Future<Box> openUsersBox() async =>
-      await Hive.openBox<Users>("usersBox")
-          .whenComplete(() => log("BD usersBox opened!"));
+  //! LOGGED IN USER
+  static late User loggedInUser;
+
+  //! GENERAL USER BOX
+  static Future<Box> openDBBoxes() async =>
+      await Hive.openBox<User>("usersBox").whenComplete(() async => {
+            log("BD usersBox opened!"),
+            await Hive.openBox<Device>("Living room")
+                .whenComplete(() => log("box open! Living room")),
+            await Hive.openBox<Device>("Kitchen")
+                .whenComplete(() => log("box open! Kitchen")),
+            await Hive.openBox<Device>("Dining")
+                .whenComplete(() => log("box open! Dining")),
+            await Hive.openBox<Device>("Lounge")
+                .whenComplete(() => log("box open! Lounge")),
+            await Hive.openBox<Device>("Bedroom")
+                .whenComplete(() => log("box open! Bedroom"))
+          });
 
   //! REGISTER METHODS
   static bool registerNewUser(
@@ -18,19 +34,24 @@ class AppAuthService {
     //! IS USER REGISTERED
     bool isUserRegistered = false;
 
-    final Users _user = Users()
+    //! FETCH USER DATA BOX
+    Box _authBox = Hive.box<User>("usersBox");
+
+    //! ASSIGN VALUES
+    final User _user = User()
       ..fullName = fullName
       ..userName = userName
       ..email = email
       ..password = password
       ..userImage = null;
 
-    //! FETCH CURRENT USER DATA BOX
-    //! ADD DATA TO IT, USING THE USERS EMAIL AS KEY AND THE GOTTEN DETAILS AS VALUE.
-    Box _authBox = Hive.box<Users>("usersBox");
-    log("Fetched DB usersBox");
+    //! UPDATE LOGGED IN USER FOR USE THROUGH OUT APP.
+    loggedInUser = _user;
 
+    //! ADD USER TO DB.
     _authBox.add(_user);
+
+    //! UPDATE VALUES.
     isUserRegistered = true;
 
     return isUserRegistered;
@@ -42,13 +63,17 @@ class AppAuthService {
     bool isUserSignedIn = false;
 
     //! GET USER DATA BOX
-    Box _usersBox = Hive.box<Users>("usersBox");
-    log("Sign in user started\nDB usersBox accessed!");
+    Box _authBox = Hive.box<User>("usersBox");
 
-    //! FETCH VALUE OF USERS DETAILS STORED USING KEY EMAIL.
-    Iterable<Users> _usersDB = _usersBox.values.cast<Users>();
+    //! FETCH VALUE OF USER DETAILS STORED USING KEY EMAIL.
+    Iterable<User> _userDB = _authBox.values.cast<User>();
 
-    isUserSignedIn = _usersDB.any((element) => password == element.password);
+    //! FIND A USER IN THE DB WHOSE PASSWORD MATCHES THE ONE PASSED.
+    //! PASSWORDS ARE UNIQUE, EVEN IF EMAILS OR USER NAMES ARE EQUAL, PASSWORDS ARE MOST LIKELY DIFFERENT
+    loggedInUser =
+        _userDB.firstWhere((element) => element.password == password);
+
+    isUserSignedIn = _userDB.any((element) => password == element.password);
 
     return isUserSignedIn;
   }
@@ -65,25 +90,40 @@ class AppAuthService {
   }
 
   //! UPDATE USER DETAILS
-  static Future<void> updateUserDetail({required String userEmail}) async {
-    //! IS IMAGE UPDATED
+  static Future<bool> updateUserDetail(
+      {required String? fullName,
+      required String? userName,
+      required String? email,
+      required String? password,
+      required Uint8List? userImage}) async {
+    //! IS USER DETAILS UPDATED
+    bool _isUserDetailsUpdated = false;
 
     //! OPEN BOX
-    Box _usersBox = Hive.box("usersBox");
+    Box<User> _authBox = Hive.box<User>("usersBox");
     log("Fetched DB usersBox");
 
-    //! FETCH VALUE OF USERS DETAILS STORED USING KEY EMAIL.
-    Map<dynamic, dynamic> _usersDetails = _usersBox.get(userEmail);
-    log("User details gotten. \nDetails: $_usersDetails");
+    //! FETCH VALUE OF USER DETAILS STORED USING KEY EMAIL.
+    User _user = _authBox.get(loggedInUser.key)!;
+    log("User details gotten. \nDetails: ${_user.fullName}");
 
     //! UPDATE SPECIFIC USER PROPERTY
+    _user = User()
+      ..email = email ?? _user.email
+      ..password = password ?? _user.password
+      ..fullName = fullName ?? _user.fullName
+      ..userName = userName ?? _user.userName
+      ..userImage = userImage ?? _user.userImage;
 
     //! SAVE USER DETAILS BACK
-    _usersBox.putAll({userEmail: _usersDetails});
+    _authBox.putAt(loggedInUser.key, _user);
+
+    loggedInUser = _user;
 
     //! CONFIRM NEW ADDITION
-    log("KEYS IN USERS BOX: ${_usersBox.keys}");
-    Map<dynamic, dynamic> _user = _usersBox.get(userEmail);
-    log(_user.containsKey("userImage").toString());
+    _isUserDetailsUpdated = _authBox.values.contains(loggedInUser);
+    log(_isUserDetailsUpdated.toString());
+
+    return _isUserDetailsUpdated;
   }
 }
