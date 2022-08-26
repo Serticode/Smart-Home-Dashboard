@@ -43,7 +43,7 @@ class AppTheme {
         textTheme: TextTheme(
             headline1: GoogleFonts.poppins(
                 fontWeight: FontWeight.w700,
-                fontSize: 32.0,
+                fontSize: 36.0,
                 color: AppThemeColours.lettersColour),
             headline2: GoogleFonts.poppins(
                 fontWeight: FontWeight.w700,
@@ -52,7 +52,7 @@ class AppTheme {
             bodyText1: GoogleFonts.poppins(
                 fontWeight: FontWeight.w500,
                 color: AppThemeColours.lettersColour,
-                fontSize: 18.0),
+                fontSize: 16.0),
             bodyText2: GoogleFonts.poppins(
                 fontWeight: FontWeight.w500,
                 color: AppThemeColours.lettersColour,

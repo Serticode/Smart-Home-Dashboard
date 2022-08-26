@@ -1,15 +1,12 @@
-import 'dart:developer';
+// ignore_for_file: unnecessary_statements
 
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:smart_home_dashboard/models/device_model.dart';
 import 'package:smart_home_dashboard/screens/auth_screens/confirmation_screen/confirmation_screen.dart';
 import 'package:smart_home_dashboard/screens/auth_screens/login_screen/login_screen.dart';
 import 'package:smart_home_dashboard/services/auth/auth_services.dart';
 import 'package:smart_home_dashboard/theme/theme.dart';
 import 'package:smart_home_dashboard/utils/app_functional_utils.dart';
 import 'package:smart_home_dashboard/utils/app_screen_utils.dart';
-import 'package:smart_home_dashboard/widgets/custom_text_widget.dart';
 
 class Register extends StatefulWidget {
   Register({Key? key}) : super(key: key);
@@ -75,11 +72,8 @@ class _RegisterState extends State<Register> {
                       AppScreenUtils.verticalSpaceSmall,
 
                       //! CONTENT
-                      const CustomTextWidget(
-                          theText: "Register",
-                          isThisAHeader: false,
-                          isThisASubheader: false,
-                          isThisABody: true),
+                      Text("Register",
+                          style: Theme.of(context).textTheme.bodyText1),
 
                       //! SPACER
                       AppScreenUtils.verticalSpaceSmall,
@@ -177,31 +171,7 @@ class _RegisterState extends State<Register> {
                                           password: _passwordController!.text);
 
                                   _isUserAuthenticated
-                                      // ignore: unnecessary_statements
                                       ? {
-                                          //! OPEN THE BOX OF USERS DEVICES
-                                          //! OPEN ALL DATA BASE BOXES
-                                          await Hive.openBox<DeviceModel>(
-                                                  "Living room")
-                                              .whenComplete(() =>
-                                                  log("box open! Living room")),
-                                          await Hive.openBox<DeviceModel>(
-                                                  "Kitchen")
-                                              .whenComplete(() =>
-                                                  log("box open! Kitchen")),
-                                          await Hive.openBox<DeviceModel>(
-                                                  "Dining")
-                                              .whenComplete(() =>
-                                                  log("box open! Dining")),
-                                          await Hive.openBox<DeviceModel>(
-                                                  "Lounge")
-                                              .whenComplete(() =>
-                                                  log("box open! Lounge")),
-                                          await Hive.openBox<DeviceModel>(
-                                                  "Bedroom")
-                                              .whenComplete(() =>
-                                                  log("box open! Bedroom")),
-
                                           //! CLEAR EMAIL CONTROLLERS FROM MEMORY
                                           _emailController!.clear(),
                                           _passwordController!.clear(),
@@ -230,30 +200,24 @@ class _RegisterState extends State<Register> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const CustomTextWidget(
-                                theText: "Already have an account?",
-                                isThisAHeader: false,
-                                isThisASubheader: false,
-                                isThisABody: true),
+                            const Text("Already have an account?"),
 
                             //! SPACER
                             AppScreenUtils.horizontalSpaceMedium,
 
                             //! CONTENT
                             InkWell(
-                                onTap: () {
-                                  //! CLOSE PREVIOUS MODAL SHEET
-                                  Navigator.of(context).pop();
+                                onTap: () => {
+                                      //! CLOSE PREVIOUS MODAL SHEET
+                                      Navigator.of(context).pop(),
 
-                                  //! OPEN NEW MODAL SHEET
-                                  AppFunctionalUtils.showAppModalBottomSheet(
-                                      theBuildContext: context, child: Login());
-                                },
-                                child: const CustomTextWidget(
-                                    theText: "Login",
-                                    isThisAHeader: false,
-                                    isThisASubheader: false,
-                                    isThisABody: true))
+                                      //! OPEN NEW MODAL SHEET
+                                      AppFunctionalUtils
+                                          .showAppModalBottomSheet(
+                                              theBuildContext: context,
+                                              child: Login())
+                                    },
+                                child: const Text("Login"))
                           ]),
 
                       //! SPACER

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:smart_home_dashboard/models/device_model.dart';
@@ -22,11 +21,11 @@ Future<void> main() async {
   Hive.init(_appDocumentDirectory.path);
 
   //! INITIALIZE ADAPTERS
-  Hive.registerAdapter(UsersAdapter());
-  Hive.registerAdapter(DeviceModelAdapter());
+  Hive.registerAdapter(UserAdapter());
+  Hive.registerAdapter(DeviceAdapter());
 
   //! RUN APP
-  runApp(ProviderScope(child: const SmartHomeDashboard()));
+  runApp(const SmartHomeDashboard());
 }
 
 class SmartHomeDashboard extends StatefulWidget {
@@ -39,20 +38,18 @@ class SmartHomeDashboard extends StatefulWidget {
 class _SmartHomeDashboardState extends State<SmartHomeDashboard> {
   @override
   void initState() {
+    super.initState();
     //! PRECACHE IMAGES
     AppFunctionalUtils.precacheAppImages(context);
-    super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.theTheme,
-        onGenerateRoute: AppNavigator.generateRoute,
-        home: LayoutBuilder(
-            builder: (context, constraints) => ScreenUtilInit(
-                designSize: Size(constraints.maxWidth, constraints.maxHeight),
-                builder: (context, widget) => const Wrapper())));
-  }
+  Widget build(BuildContext context) => MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.theTheme,
+      onGenerateRoute: AppNavigator.generateRoute,
+      home: LayoutBuilder(
+          builder: (context, constraints) => ScreenUtilInit(
+              designSize: Size(constraints.maxWidth, constraints.maxHeight),
+              builder: (context, widget) => const Wrapper())));
 }

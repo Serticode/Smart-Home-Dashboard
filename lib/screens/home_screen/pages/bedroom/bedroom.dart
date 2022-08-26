@@ -20,7 +20,7 @@ class _BedroomState extends State<Bedroom> {
 
   @override
   void initState() {
-    _bedroomDevices = Hive.box<DeviceModel>("Bedroom");
+    _bedroomDevices = Hive.box<Device>("Bedroom");
 
     super.initState();
   }
@@ -64,9 +64,11 @@ class _BedroomState extends State<Bedroom> {
                                               .deviceImageBytes ==
                                           null
                                       ? Center(child: Text("No image Added"))
-                                      : Image.memory(_bedroomDevices.values
-                                          .elementAt(index)
-                                          .deviceImageBytes),
+                                      : Image.memory(
+                                          _bedroomDevices.values
+                                              .elementAt(index)
+                                              .deviceImageBytes,
+                                          fit: BoxFit.cover),
                                 ),
                               ),
 
@@ -145,19 +147,101 @@ class _BedroomState extends State<Bedroom> {
                                     AppScreenUtils.verticalSpaceSmall,
 
                                     InkWell(
-                                        onTap: () => showAppDialogBox(
-                                            theBuildContext: context,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.2,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.8,
-                                            deviceName: _bedroomDevices.values
-                                                .elementAt(index)
-                                                .deviceName!),
+                                        onTap: () => AppFunctionalUtils
+                                            .showAppModalBottomSheet(
+                                                theBuildContext: context,
+                                                child: SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.2,
+                                                    width: double.infinity,
+                                                    child: Padding(
+                                                        padding: AppScreenUtils
+                                                            .cardPadding,
+                                                        child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              //! CLOSE BUTTON
+                                                              //! CLOSE BUTTON &&  HEADER
+                                                              Row(children: [
+                                                                IconButton(
+                                                                    onPressed:
+                                                                        () =>
+                                                                            //! CLOSE NAVIGATOR
+                                                                            Navigator.of(context)
+                                                                                .pop(),
+                                                                    icon: Icon(
+                                                                        Icons
+                                                                            .close,
+                                                                        color: AppThemeColours
+                                                                            .primaryColour)),
+
+                                                                //! SPACER
+                                                                AppScreenUtils
+                                                                    .horizontalSpaceMedium,
+
+                                                                //! HEADER
+                                                                Text(
+                                                                    "Control ${_bedroomDevices.values.elementAt(index).deviceName!} ",
+                                                                    style: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .bodyText2!
+                                                                        .copyWith(
+                                                                            fontSize:
+                                                                                12.0,
+                                                                            fontWeight:
+                                                                                FontWeight.w500))
+                                                              ]),
+
+                                                              //! SPACER
+                                                              AppScreenUtils
+                                                                  .verticalSpaceSmall,
+
+                                                              Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    //! ICON
+                                                                    Icon(
+                                                                        Icons
+                                                                            .speaker_outlined,
+                                                                        color: AppThemeColours
+                                                                            .primaryColour),
+
+                                                                    //! SPACER
+                                                                    AppScreenUtils
+                                                                        .horizontalSpaceMedium,
+
+                                                                    //! SLIDER
+                                                                    StatefulBuilder(builder:
+                                                                        (context,
+                                                                            state) {
+                                                                      return Slider(
+                                                                          min:
+                                                                              1.0,
+                                                                          max:
+                                                                              100,
+                                                                          divisions:
+                                                                              10,
+                                                                          value:
+                                                                              _sliderValue,
+                                                                          onChanged:
+                                                                              (value) {
+                                                                            state(() {
+                                                                              _sliderValue = value;
+                                                                            });
+
+                                                                            setState(() {});
+                                                                          });
+                                                                    })
+                                                                  ])
+                                                            ])))),
                                         child: Icon(Icons.devices_outlined,
                                             color:
                                                 AppThemeColours.primaryColour)),
@@ -180,74 +264,4 @@ class _BedroomState extends State<Bedroom> {
                               ))
                         ]))));
   }
-
-  showAppDialogBox(
-          {required BuildContext theBuildContext,
-          required double width,
-          required String deviceName,
-          required double height}) =>
-      showGeneralDialog(
-          //!SHADOW EFFECT
-          barrierColor: AppThemeColours.primaryColour.withOpacity(0.5),
-
-          //! OTHER NEEDED PARAMETERS
-          barrierDismissible: false,
-          barrierLabel: "LABEL",
-          context: theBuildContext,
-
-          //! USE PROVIDED ANIMATION
-          transitionBuilder: (context, a1, a2, widget) => Dialog(
-              elevation: 12.0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(21)),
-              child: SizedBox(
-                  height: height * a1.value,
-                  width: width * a1.value,
-                  child: SingleChildScrollView(
-                      padding: AppScreenUtils.cardPadding,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //! CLOSE BUTTON &&  HEADER
-                            Row(children: [
-                              IconButton(
-                                  onPressed: () =>
-                                      //! CLOSE NAVIGATOR
-                                      Navigator.of(context).pop(),
-                                  icon: Icon(Icons.close,
-                                      color: AppThemeColours.primaryColour)),
-
-                              //! SPACER
-                              AppScreenUtils.horizontalSpaceSmall,
-
-                              //! HEADER
-                              Text("Control $deviceName ",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2!
-                                      .copyWith(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w500))
-                            ]),
-
-                            AppScreenUtils.verticalSpaceSmall,
-
-                            Row(children: [
-                              Icon(Icons.speaker_outlined,
-                                  color: AppThemeColours.primaryColour),
-                              Slider(
-                                  min: 1.0,
-                                  max: 100,
-                                  divisions: 10,
-                                  value: _sliderValue,
-                                  onChanged: (value) =>
-                                      setState(() => _sliderValue = value))
-                            ])
-                          ])))),
-
-          //! ANIMATION DURATION
-          transitionDuration: Duration(milliseconds: 200),
-
-          //! STILL DON'T KNOW WHAT THIS DOES, BUT IT'S REQUIRED
-          pageBuilder: (context, animation1, animation2) => Text(""));
 }

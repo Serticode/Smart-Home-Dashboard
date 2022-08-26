@@ -6,17 +6,17 @@ part of 'device_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class DeviceModelAdapter extends TypeAdapter<DeviceModel> {
+class DeviceAdapter extends TypeAdapter<Device> {
   @override
   final int typeId = 1;
 
   @override
-  DeviceModel read(BinaryReader reader) {
+  Device read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return DeviceModel(
+    return Device(
       deviceName: fields[0] as String?,
       deviceType: fields[1] as String?,
       isDeviceOn: fields[2] as String?,
@@ -25,7 +25,7 @@ class DeviceModelAdapter extends TypeAdapter<DeviceModel> {
   }
 
   @override
-  void write(BinaryWriter writer, DeviceModel obj) {
+  void write(BinaryWriter writer, Device obj) {
     writer
       ..writeByte(5)
       ..writeByte(0)
@@ -46,7 +46,7 @@ class DeviceModelAdapter extends TypeAdapter<DeviceModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is DeviceModelAdapter &&
+      other is DeviceAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

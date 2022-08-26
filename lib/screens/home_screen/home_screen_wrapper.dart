@@ -14,6 +14,7 @@ import 'package:smart_home_dashboard/screens/home_screen/pages/dining/dining.dar
 import 'package:smart_home_dashboard/screens/home_screen/pages/kitchen/kitchen.dart';
 import 'package:smart_home_dashboard/screens/home_screen/pages/living_room/living_room.dart';
 import 'package:smart_home_dashboard/screens/home_screen/pages/lounge/lounge.dart';
+import 'package:smart_home_dashboard/services/auth/auth_services.dart';
 import 'package:smart_home_dashboard/services/providers/app_providers.dart';
 import 'package:smart_home_dashboard/theme/theme.dart';
 import 'package:smart_home_dashboard/utils/app_functional_utils.dart';
@@ -38,7 +39,6 @@ class _HomeScreenWrapperState extends State<HomeScreenWrapper> {
   Uint8List? _deviceImageBytes;
   late var _theLoggedInUser;
   String _selectedRoom = "Living room";
-  //late Box _devicesBox;
   late TextEditingController _deviceNameController;
   late TextEditingController _deviceTypeController;
   late TextEditingController _deviceLocationController;
@@ -46,10 +46,8 @@ class _HomeScreenWrapperState extends State<HomeScreenWrapper> {
   @override
   void initState() {
     super.initState();
-    _theLoggedInUser = Hive.box<Users>("usersBox")
-        .values
-        .firstWhere((element) => element.email == "test");
-    log("User Data Gotten: ${_theLoggedInUser.toString()}");
+    _theLoggedInUser = Hive.box<User>("usersBox").values.firstWhere(
+        (element) => element.email == AppAuthService.loggedInUser.email);
 
     //! INITIALIZE CONTROLLERS
     _deviceNameController = TextEditingController();
@@ -65,168 +63,140 @@ class _HomeScreenWrapperState extends State<HomeScreenWrapper> {
             userEmail: _theLoggedInUser!.email!,
             userName: _theLoggedInUser!.userName!),
         body: SafeArea(
-            child: 
-                Padding(
-                    padding: AppScreenUtils.appUIDefaultPadding,
-                    child: Column(children: [
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Padding(
+                padding: AppScreenUtils.appUIDefaultPadding,
+                child: Column(children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                            //! OPEN OR CLOSE APP DRAWER ON PRESSED
+                            onPressed: () => _drawerScaffoldKey
+                                    .currentState!.isDrawerOpen
+                                ? Navigator.of(context).pop()
+                                : _drawerScaffoldKey.currentState!.openDrawer(),
+                            icon: Icon(Icons.drag_handle_outlined,
+                                size: 32.0,
+                                color: AppThemeColours.primaryColour)),
+
+                        //! IMAGE
+                        Container(
+                            height: 45.0,
+                            width: 45.0,
+                            decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                border: Border.all(
+                                    width: 2.0,
+                                    color: AppThemeColours.primaryColour),
+                                borderRadius: BorderRadius.circular(12.0)),
+                            child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12)),
+                                child: AppAuthService.loggedInUser.userImage ==
+                                        null
+                                    ? Image.asset("assets/user.jpg")
+                                    : Image.memory(
+                                        AppAuthService.loggedInUser.userImage!,
+                                        fit: BoxFit.cover)))
+                      ]),
+
+                  //! SPACER
+                  AppScreenUtils.verticalSpaceSmall,
+
+                  //! USER NAME
+                  SizedBox(
+                      width: double.infinity,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            IconButton(
-                                //! OPEN OR CLOSE APP DRAWER ON PRESSED
-                                onPressed: () => _drawerScaffoldKey
-                                        .currentState!.isDrawerOpen
-                                    ? Navigator.of(context).pop()
-                                    : _drawerScaffoldKey.currentState!
-                                        .openDrawer(),
-                                icon: Icon(Icons.drag_handle_outlined,
-                                    size: 32.0,
-                                    color: AppThemeColours.primaryColour)),
+                            Text("Hi ${_theLoggedInUser!.userName}",
+                                style: Theme.of(context).textTheme.headline2),
+                            Text("Welcome to your Smart Home.")
+                          ])),
 
-                            //! IMAGE
-                            InkWell(
-                                //! PICK IMAGE
-                                onTap: () async {
-                                  //! LOG
-                                  log("File picker fired!");
+                  //! SPACER
+                  AppScreenUtils.verticalSpaceSmall,
 
-                                  //! CALL FILE PICKER
-                                  File? _selectedImage =
-                                      await AppFunctionalUtils.pickProfilePhoto(
-                                          theBuildContext: context);
+                  //! ROOM ICONS
+                  Padding(
+                      padding: AppScreenUtils.appUIDefaultPadding,
+                      child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                              children: RoomModel.listOfRooms
+                                  .map((room) => InkWell(
+                                      onTap: () {
+                                        log(room["roomName"]);
 
-                                  _selectedImage != null
-                                      ? setState(() =>
-                                          _userProfileImage = _selectedImage)
-                                      : SizedBox();
-                                },
-                                child: Container(
-                                    height: 45.0,
-                                    width: 45.0,
-                                    decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                        border: Border.all(
-                                            width: 2.0,
-                                            color:
-                                                AppThemeColours.primaryColour),
-                                        borderRadius:
-                                            BorderRadius.circular(12.0)),
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(12)),
-                                        child: _userProfileImage != null
-                                            ? Image.file(_userProfileImage!,
-                                                fit: BoxFit.contain)
-                                            : Image(
-                                                image: AssetImage(
-                                                    "assets/user.jpg")))))
-                          ]),
+                                        //! SET VALUE
+                                        setState(() =>
+                                            _selectedRoom = room["roomName"]);
 
-                      //! SPACER
-                      AppScreenUtils.verticalSpaceSmall,
+                                        //! SCROLL TO ROOM PAGE
+                                        AppFunctionalUtils.scrollToIndex(
+                                            pageController: _pageViewController,
+                                            index: RoomModel.listOfRooms
+                                                .indexOf(room));
+                                      },
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            //! ICON
+                                            Card(
+                                                color: _selectedRoom ==
+                                                        room["roomName"]
+                                                    ? AppThemeColours
+                                                        .primaryColour
+                                                    : const Color(0xFFBCC1C2),
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 12.0),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12.0)),
+                                                child: Padding(
+                                                    padding: AppScreenUtils
+                                                        .cardPadding,
+                                                    child: Icon(
+                                                        room["roomIcon"],
+                                                        color: _selectedRoom ==
+                                                                room["roomName"]
+                                                            ? AppThemeColours
+                                                                .tertiaryColour
+                                                            : AppThemeColours
+                                                                .primaryColour))),
 
-                      //! USER NAME
-                      SizedBox(
-                          width: double.infinity,
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Hi ${_theLoggedInUser!.userName}",
-                                    style:
-                                        Theme.of(context).textTheme.headline2),
-                                Text("Welcome to your Smart Home.")
-                              ])),
+                                            //! SPACER
+                                            AppScreenUtils.verticalSpaceTiny,
 
-                      //! SPACER
-                      AppScreenUtils.verticalSpaceSmall,
+                                            //! NAMES
+                                            Text(room["roomName"])
+                                          ])))
+                                  .toList()))),
 
-                      //! ROOM ICONS
-                      Padding(
-                          padding: AppScreenUtils.appUIDefaultPadding,
-                          child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                  children: HouseRoomModel.listOfRooms
-                                      .map((room) => InkWell(
-                                          onTap: () {
-                                            log(room["roomName"]);
+                  //! BODY
+                  Expanded(
+                      child: PageView(
+                          controller: _pageViewController,
+                          physics: NeverScrollableScrollPhysics(),
+                          children: [
+                        //! LIVING ROOM
+                        LivingRoom(),
 
-                                            //! SET VALUE
-                                            setState(() => _selectedRoom =
-                                                room["roomName"]);
+                        //! BEDROOMS
+                        Bedroom(),
 
-                                            //! SCROLL TO ROOM PAGE
-                                            AppFunctionalUtils.scrollToIndex(
-                                                pageController:
-                                                    _pageViewController,
-                                                index: HouseRoomModel
-                                                    .listOfRooms
-                                                    .indexOf(room));
-                                          },
-                                          child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                //! ICON
-                                                Card(
-                                                    color: _selectedRoom ==
-                                                            room["roomName"]
-                                                        ? AppThemeColours
-                                                            .primaryColour
-                                                        : const Color(
-                                                            0xFFBCC1C2),
-                                                    margin:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 12.0),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius.circular(
-                                                                    12.0)),
-                                                    child: Padding(
-                                                        padding: AppScreenUtils
-                                                            .cardPadding,
-                                                        child: Icon(
-                                                            room["roomIcon"],
-                                                            color: _selectedRoom ==
-                                                                    room[
-                                                                        "roomName"]
-                                                                ? AppThemeColours
-                                                                    .tertiaryColour
-                                                                : AppThemeColours
-                                                                    .primaryColour))),
+                        //! KITCHEN
+                        Kitchen(),
 
-                                                //! SPACER
-                                                AppScreenUtils
-                                                    .verticalSpaceTiny,
+                        //! DINING
+                        Dining(),
 
-                                                //! NAMES
-                                                Text(room["roomName"])
-                                              ])))
-                                      .toList()))),
-
-                      //! BODY
-                      Expanded(
-                          child: PageView(
-                              controller: _pageViewController,
-                              physics: NeverScrollableScrollPhysics(),
-                              children: [
-                            //! LIVING ROOM
-                            LivingRoom(),
-
-                            //! BEDROOMS
-                            Bedroom(),
-
-                            //! KITCHEN
-                            Kitchen(),
-
-                            //! DINING
-                            Dining(),
-
-                            //! LOUNGE
-                            Lounge()
-                          ]))
-                    ]))),
+                        //! LOUNGE
+                        Lounge()
+                      ]))
+                ]))),
 
         //! FLOATING ACTION BUTTON
         floatingActionButton: FloatingActionButton(
@@ -238,7 +208,7 @@ class _HomeScreenWrapperState extends State<HomeScreenWrapper> {
               //! SHOW A MODAL BOTTOM SHEET
               showAppDialogBox(
                   theBuildContext: context,
-                  height: MediaQuery.of(context).size.height * 0.65,
+                  height: MediaQuery.of(context).size.height * 0.6,
                   width: MediaQuery.of(context).size.width * 0.9,
                   selectedRoom: _selectedRoom);
             },
@@ -327,7 +297,8 @@ class _HomeScreenWrapperState extends State<HomeScreenWrapper> {
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(12)),
                                                 child: Image.file(
-                                                    _userDeviceImage!)))
+                                                    _userDeviceImage!,
+                                                    fit: BoxFit.cover)))
                                         : Center(
                                             child: Text(
                                                 "Tap to add device Image",
@@ -369,19 +340,6 @@ class _HomeScreenWrapperState extends State<HomeScreenWrapper> {
                             //! SPACER
                             AppScreenUtils.verticalSpaceSmall,
 
-                            //! DEVICE LOCATION
-                            TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Where is the device placed in-house?';
-                                  }
-                                  return null;
-                                },
-                                controller: _deviceLocationController,
-                                decoration: InputDecoration(
-                                    hintText:
-                                        "In house device location - Bedroom, Lounge, Living room, Kitchen?")),
-
                             //! SPACER
                             AppScreenUtils.verticalSpaceSmall,
 
@@ -399,8 +357,7 @@ class _HomeScreenWrapperState extends State<HomeScreenWrapper> {
                                               deviceImageBytes:
                                                   _deviceImageBytes!, //_deviceImageBytes!.toString(),
                                               inHouseDeviceLocation:
-                                                  _deviceLocationController
-                                                      .text,
+                                                  selectedRoom,
                                               storageBoxName: "$selectedRoom");
 
                                       _isDeviceAdded
@@ -411,7 +368,7 @@ class _HomeScreenWrapperState extends State<HomeScreenWrapper> {
                                               _deviceNameController.clear(),
                                               _deviceLocationController.clear(),
                                               _deviceImageBytes = null,
-                                              _userDeviceImage!.delete(),
+                                              _userDeviceImage = null,
                                               Navigator.of(context).pop()
                                             }
                                           : log("Device not added.");

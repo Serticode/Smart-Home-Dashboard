@@ -3,7 +3,6 @@ import 'package:smart_home_dashboard/router/router.dart';
 import 'package:smart_home_dashboard/router/routes.dart';
 import 'package:smart_home_dashboard/theme/theme.dart';
 import 'package:smart_home_dashboard/utils/app_screen_utils.dart';
-import 'package:smart_home_dashboard/widgets/custom_text_widget.dart';
 
 class Confirm extends StatelessWidget {
   final bool isUserAuthenticated;
@@ -38,34 +37,21 @@ class Confirm extends StatelessWidget {
               AppScreenUtils.verticalSpaceSmall,
 
               //! CONTENT
-              const CustomTextWidget(
-                  theText: "Confirmation",
-                  isThisAHeader: false,
-                  isThisASubheader: false,
-                  isThisABody: true),
+              const Text("Confirmation"),
 
               //! SPACER
               AppScreenUtils.verticalSpaceLarge,
 
               //! CONTENT
               Transform.scale(
-                  scale: 2,
-                  child: CustomTextWidget(
-                      theText: isUserAuthenticated ? "☺️" : "😔",
-                      isThisAHeader: false,
-                      isThisASubheader: false,
-                      isThisABody: true)),
+                  scale: 2, child: Text(isUserAuthenticated ? "☺️" : "😔")),
 
               //! SPACER
               AppScreenUtils.verticalSpaceLarge,
 
-              CustomTextWidget(
-                  theText: isUserAuthenticated
-                      ? "You have been authenticated. \nWelcome."
-                      : "Authentication not successful.",
-                  isThisAHeader: false,
-                  isThisASubheader: false,
-                  isThisABody: true),
+              Text(isUserAuthenticated
+                  ? "You have been authenticated. \nWelcome."
+                  : "Authentication not successful."),
 
               //! SPACER
               AppScreenUtils.verticalSpaceLarge,
